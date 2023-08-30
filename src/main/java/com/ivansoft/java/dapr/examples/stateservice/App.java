@@ -1,4 +1,4 @@
-package com.ivansoft.java.dapr.examples;
+package com.ivansoft.java.dapr.examples.stateservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

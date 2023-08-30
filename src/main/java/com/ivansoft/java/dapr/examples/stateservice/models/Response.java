@@ -1,4 +1,4 @@
-package com.ivansoft.java.dapr.examples.models;
+package com.ivansoft.java.dapr.examples.stateservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

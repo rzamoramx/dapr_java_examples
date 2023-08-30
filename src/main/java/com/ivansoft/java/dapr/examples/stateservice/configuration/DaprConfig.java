@@ -1,4 +1,4 @@
-package com.ivansoft.java.dapr.examples.configuration;
+package com.ivansoft.java.dapr.examples.stateservice.configuration;
 
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.DaprClient;

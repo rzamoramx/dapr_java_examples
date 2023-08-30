@@ -1,11 +1,11 @@
-package com.ivansoft.java.dapr.examples.controllers;
+package com.ivansoft.java.dapr.examples.stateservice.controllers;
 
-import com.ivansoft.java.dapr.examples.services.StateService;
+import com.ivansoft.java.dapr.examples.stateservice.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
-import com.ivansoft.java.dapr.examples.models.State;
-import com.ivansoft.java.dapr.examples.models.Response;
+import com.ivansoft.java.dapr.examples.stateservice.models.State;
+import com.ivansoft.java.dapr.examples.stateservice.models.Response;
 
 
 @RestController

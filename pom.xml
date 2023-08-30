@@ -11,6 +11,11 @@
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
+        <protobuf.output.directory>${project.build.directory}/generated-sources</protobuf.output.directory>
+        <protobuf.input.directory>${project.basedir}/src/main/resources</protobuf.input.directory>
+        <grpc.version>1.42.1</grpc.version>
+        <protobuf.version>3.17.3</protobuf.version>
+        <dapr.sdk.version>1.9.0</dapr.sdk.version>
     </properties>
 
     <name>dapr java</name>
@@ -49,20 +54,70 @@
         <dependency>
             <groupId>io.dapr</groupId>
             <artifactId>dapr-sdk</artifactId>
-            <version>1.9.0</version>
+            <version>${dapr.sdk.version}</version>
         </dependency>
         <!-- Dapr's SDK for Actors (optional). -->
         <dependency>
             <groupId>io.dapr</groupId>
             <artifactId>dapr-sdk-actors</artifactId>
-            <version>1.9.0</version>
+            <version>${dapr.sdk.version}</version>
         </dependency>
         <!-- Dapr's SDK integration with SpringBoot (optional). -->
         <dependency>
             <groupId>io.dapr</groupId>
             <artifactId>dapr-sdk-springboot</artifactId>
-            <version>1.9.0</version>
+            <version>${dapr.sdk.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-api</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-testing</artifactId>
+            <version>${grpc.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>${protobuf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.lognet</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.lognet</groupId>
+            <artifactId>grpc-spring-boot-starter</artifactId>
+            <version>2.3.2</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>io.grpc</groupId>
+                    <artifactId>grpc-netty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -78,6 +133,37 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protoc-jar-maven-plugin</artifactId>
+                <version>3.11.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <inputDirectories>
+                                <include>${protobuf.input.directory}</include>
+                            </inputDirectories>
+                            <outputTargets>
+                                <outputTarget>
+                                    <type>java</type>
+                                    <outputDirectory>${protobuf.output.directory}</outputDirectory>
+                                </outputTarget>
+                                <outputTarget>
+                                    <type>grpc-java</type>
+                                    <outputDirectory>${protobuf.output.directory}</outputDirectory>
+                                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}</pluginArtifact>
+                                </outputTarget>
+                            </outputTargets>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
