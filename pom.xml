@@ -4,168 +4,56 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ivansoft.java.dapr.examples</groupId>
-    <artifactId>daprjava</artifactId>
+    <groupId>com.ivansoft.java.dapr</groupId>
+    <artifactId>emarket</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.compiler.source>20</maven.compiler.source>
-        <maven.compiler.target>20</maven.compiler.target>
-        <protobuf.output.directory>${project.build.directory}/generated-sources</protobuf.output.directory>
-        <protobuf.input.directory>${project.basedir}/src/main/resources</protobuf.input.directory>
-        <grpc.version>1.42.1</grpc.version>
-        <protobuf.version>3.17.3</protobuf.version>
-        <dapr.sdk.version>1.9.0</dapr.sdk.version>
-    </properties>
-
-    <name>dapr java</name>
-    <description>Examples for Dapr</description>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
+    <modules>
+        <module>orderstate</module>
+        <module>fulfillment</module>
+        <module>purchaseagent</module>
+    </modules>
     <dependencies>
         <dependency>
-            <!--import mockito framework for unit testing-->
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.19.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.3.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Dapr's core SDK with all features, except Actors. -->
-        <dependency>
-            <groupId>io.dapr</groupId>
-            <artifactId>dapr-sdk</artifactId>
-            <version>${dapr.sdk.version}</version>
-        </dependency>
-        <!-- Dapr's SDK for Actors (optional). -->
-        <dependency>
-            <groupId>io.dapr</groupId>
-            <artifactId>dapr-sdk-actors</artifactId>
-            <version>${dapr.sdk.version}</version>
-        </dependency>
-        <!-- Dapr's SDK integration with SpringBoot (optional). -->
-        <dependency>
-            <groupId>io.dapr</groupId>
-            <artifactId>dapr-sdk-springboot</artifactId>
-            <version>${dapr.sdk.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>6.0.11</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.7</version>
+            <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-api</artifactId>
-            <version>${grpc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-testing</artifactId>
-            <version>${grpc.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
-            <version>${protobuf.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.lognet</groupId>
-            <artifactId>grpc-spring-boot-starter</artifactId>
-            <version>2.4.3</version>
-        </dependency>
-
-        <!--<dependency>
-            <groupId>org.lognet</groupId>
-            <artifactId>grpc-spring-boot-starter</artifactId>
-            <version>2.3.2</version>
-
-            <exclusions>
-                <exclusion>
-                    <groupId>io.grpc</groupId>
-                    <artifactId>grpc-netty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.0.11</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.dapr</groupId>
+            <artifactId>dapr-sdk</artifactId>
+            <version>1.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>3.1.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.os72</groupId>
-                <artifactId>protoc-jar-maven-plugin</artifactId>
-                <version>3.11.4</version>
-                <executions>
-                    <execution>
-                        <id>generate-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <inputDirectories>
-                                <include>${protobuf.input.directory}</include>
-                            </inputDirectories>
-                            <outputTargets>
-                                <outputTarget>
-                                    <type>java</type>
-                                    <outputDirectory>${protobuf.output.directory}</outputDirectory>
-                                </outputTarget>
-                                <outputTarget>
-                                    <type>grpc-java</type>
-                                    <outputDirectory>${protobuf.output.directory}</outputDirectory>
-                                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}</pluginArtifact>
-                                </outputTarget>
-                            </outputTargets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <name>dapr java</name>
+    <description>Examples for Dapr</description>
 
 </project>

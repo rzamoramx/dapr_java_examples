@@ -27,3 +27,7 @@ hs_err_pid*
 target/
 
 *.iml
+
+# vscode workspace
+.vscode/
+dapr-java-examples.code-workspace
