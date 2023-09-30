@@ -1,13 +1,13 @@
 package com.ivansoft.java.dapr.emarket.fulfillment.services;
 
 import ch.qos.logback.classic.Logger;
+import com.ivansoft.java.dapr.emarket.common.models.Order;
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.HttpExtension;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.ivansoft.java.dapr.emarket.fulfillment.models.Order;
 
 @Service
 public class OrderStateService {

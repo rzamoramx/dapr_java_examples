@@ -13,6 +13,7 @@
         <module>orderstate</module>
         <module>fulfillment</module>
         <module>purchaseagent</module>
+        <module>common</module>
     </modules>
     <dependencies>
         <dependency>
