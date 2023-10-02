@@ -4,16 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--<parent>
+    <parent>
         <groupId>com.ivansoft.java.dapr</groupId>
         <artifactId>emarket</artifactId>
         <version>1.0-SNAPSHOT</version>
-    </parent>-->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
-        <relativePath/>
     </parent>
 
     <groupId>com.ivansoft.java.dapr.emarket</groupId>
@@ -21,13 +15,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
         <protobuf.output.directory>${project.build.directory}/purchaseagent/generated-sources</protobuf.output.directory>
         <protobuf.input.directory>${project.basedir}/purchaseagent/src/main/resources</protobuf.input.directory>
-        <grpc.version>1.42.1</grpc.version>
-        <protobuf.version>3.17.3</protobuf.version>
-        <dapr.sdk.version>1.9.0</dapr.sdk.version>
     </properties>
 
     <name>purchase agent</name>
@@ -35,45 +24,15 @@
 
     <dependencies>
         <dependency>
-            <!--import mockito framework for unit testing-->
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.19.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ivansoft.java.dapr</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0-SNAPSHOT</version> <!-- Replace with the actual version -->
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Dapr's core SDK with all features, except Actors. -->
         <dependency>
-            <groupId>io.dapr</groupId>
-            <artifactId>dapr-sdk</artifactId>
-            <version>${dapr.sdk.version}</version>
+            <groupId>com.ivansoft.java.dapr.emarket</groupId>
+            <artifactId>common</artifactId>
+            <version>1.1.1-SNAPSHOT</version>
         </dependency>
-        
-        <!-- Dapr's SDK integration with SpringBoot (optional). -->
-        <dependency>
-            <groupId>io.dapr</groupId>
-            <artifactId>dapr-sdk-springboot</artifactId>
-            <version>${dapr.sdk.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
