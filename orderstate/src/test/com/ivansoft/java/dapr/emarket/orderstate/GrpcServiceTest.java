@@ -48,6 +48,30 @@ class GrpcServiceTest {
     }
 
     @Test
+    public void onInvoke_GetState() {
+        // Mocking the incoming request
+        CommonProtos.InvokeRequest request = CommonProtos.InvokeRequest.newBuilder()
+                .setMethod("GetState")
+                .setData(Any.pack(CommonProtos.InvokeRequest.newBuilder().getDataBuilder()
+                        .setValue(ByteString.copyFromUtf8("key"))
+                        .build()))
+                .build();
+
+        // Create a stub client for the defined service
+        AppCallbackGrpc.AppCallbackBlockingStub client = AppCallbackGrpc.newBlockingStub(channel);
+
+        // Calling the method to be tested
+        CommonProtos.InvokeResponse response = client.onInvoke(request);
+
+        // Verifying that the appropriate methods were called
+        verify(responseObserverMock, times(1)).onNext(any(CommonProtos.InvokeResponse.class));
+        verify(responseObserverMock, times(1)).onCompleted();
+
+        // assert that response is equal to value
+        //assertEquals(response.getData().unpack(GrpcStateServiceProtos.GetStateResponse.class).getValue(), "value");
+    }
+
+    @Test
     public void onInvoke_SaveState() throws InvalidProtocolBufferException {
         // Mocking the incoming request
         CommonProtos.InvokeRequest request = CommonProtos.InvokeRequest.newBuilder()

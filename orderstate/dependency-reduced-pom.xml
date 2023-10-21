@@ -15,7 +15,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>${shade.maven.plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -47,36 +47,6 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.github.os72</groupId>
-        <artifactId>protoc-jar-maven-plugin</artifactId>
-        <version>3.11.4</version>
-        <executions>
-          <execution>
-            <id>generate-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <inputDirectories>
-                <include>${protobuf.input.directory}</include>
-              </inputDirectories>
-              <outputTargets>
-                <outputTarget>
-                  <type>java</type>
-                  <outputDirectory>${protobuf.output.directory}</outputDirectory>
-                </outputTarget>
-                <outputTarget>
-                  <type>grpc-java</type>
-                  <outputDirectory>${protobuf.output.directory}</outputDirectory>
-                  <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}</pluginArtifact>
-                </outputTarget>
-              </outputTargets>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -87,9 +57,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf</artifactId>
-      <version>1.42.1</version>
+      <groupId>com.ivansoft.java.dapr.emarket</groupId>
+      <artifactId>common</artifactId>
+      <version>1.1.2-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -121,18 +91,6 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java-util</artifactId>
-      <version>3.17.3</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>2.0.7</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.20</version>
@@ -159,7 +117,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.10.0-RC1</version>
+      <version>5.9.0</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -198,9 +156,8 @@
     </dependency>
   </dependencies>
   <properties>
-    <protobuf.output.directory>${project.build.directory}/orderstate/generated-sources</protobuf.output.directory>
-    <protobuf.version>3.17.3</protobuf.version>
+    <commons.cli.version>1.4</commons.cli.version>
     <grpc.version>1.42.1</grpc.version>
-    <protobuf.input.directory>${project.basedir}/orderstate/src/main/resources</protobuf.input.directory>
+    <shade.maven.plugin.version>3.2.4</shade.maven.plugin.version>
   </properties>
 </project>

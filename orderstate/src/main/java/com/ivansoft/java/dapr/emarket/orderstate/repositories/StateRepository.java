@@ -26,6 +26,9 @@ public class StateRepository {
     public Optional<String> retrieveState(String key) {
         try (DaprClient client = new DaprClientBuilder().build()) {
             State<String> state = client.getState(STATE_STORE_NAME, key, String.class).block();
+            if (state == null) {
+                return Optional.empty();
+            }
             return Optional.ofNullable(state.getValue());
         } catch (Exception e) {
             throw new RuntimeException(e);

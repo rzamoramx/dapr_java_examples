@@ -3,8 +3,6 @@ package com.ivansoft.java.dapr.emarket.fulfillment.controllers;
 import com.ivansoft.java.dapr.emarket.fulfillment.services.OrderStateService;
 import io.dapr.Rule;
 import io.dapr.Topic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +12,7 @@ import reactor.core.publisher.Mono;
 import io.dapr.client.domain.CloudEvent;
 import com.ivansoft.java.dapr.emarket.common.models.Order;
 import com.ivansoft.java.dapr.emarket.common.Utils;
+import java.util.logging.Logger;
 //import com.ivansoft.java.dapr.emarket.fulfillment.models.DaprSubscription;
 //import com.ivansoft.java.dapr.emarket.fulfillment.models.SubscriptionData;
 //import java.util.Map;
@@ -23,7 +22,7 @@ import com.ivansoft.java.dapr.emarket.common.Utils;
 
 @RestController
 public class FulfillmentController {
-    private final static Logger logger = LoggerFactory.getLogger(FulfillmentController.class);
+    private final static Logger logger = Logger.getLogger(FulfillmentController.class.getName());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Autowired
@@ -54,7 +53,7 @@ public class FulfillmentController {
                 logger.info("Subscriber got: " + OBJECT_MAPPER.writeValueAsString(cloudEvent));
 
                 Order order = Utils.deserializeOrder(cloudEvent.getData().toString());
-                logger.info("Order received: {}", order);
+                logger.info("Order received: " + order);
 
                 orderStateService.saveOrder(order);
             } catch (Exception e) {
