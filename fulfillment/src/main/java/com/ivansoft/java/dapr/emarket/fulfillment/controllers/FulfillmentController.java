@@ -1,9 +1,8 @@
 package com.ivansoft.java.dapr.emarket.fulfillment.controllers;
 
-import com.ivansoft.java.dapr.emarket.fulfillment.services.OrderStateService;
+import com.ivansoft.java.dapr.emarket.common.services.OrderStateService;
 import io.dapr.Rule;
 import io.dapr.Topic;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +12,6 @@ import io.dapr.client.domain.CloudEvent;
 import com.ivansoft.java.dapr.emarket.common.models.Order;
 import com.ivansoft.java.dapr.emarket.common.Utils;
 import java.util.logging.Logger;
-//import com.ivansoft.java.dapr.emarket.fulfillment.models.DaprSubscription;
-//import com.ivansoft.java.dapr.emarket.fulfillment.models.SubscriptionData;
-//import java.util.Map;
-//import org.springframework.http.MediaType;
-//import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @RestController
@@ -25,8 +19,16 @@ public class FulfillmentController {
     private final static Logger logger = Logger.getLogger(FulfillmentController.class.getName());
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    @Autowired
-    private OrderStateService orderStateService;
+    //@Autowired
+    private final OrderStateService orderStateService;
+
+    // inject dependencies by constructor is considered a good practice due the following reasons:
+    // 1. Immutable dependencies. The class is immutable, so it is thread-safe.
+    // 2. Compile-time safety. The class is guaranteed to be initialized with all its dependencies.
+    // 3. Testability. The class can be easily tested with mock dependencies.
+    public FulfillmentController(OrderStateService orderStateService) {
+        this.orderStateService = orderStateService;
+    }
 
     /*
      * without CloudEvent, is more simple but don't have benefits of CloudEvent (metrics, tracing, etc.)

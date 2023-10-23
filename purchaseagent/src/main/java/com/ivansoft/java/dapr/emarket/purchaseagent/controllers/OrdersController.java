@@ -1,10 +1,12 @@
 package com.ivansoft.java.dapr.emarket.purchaseagent.controllers;
 
 import com.ivansoft.java.dapr.emarket.common.models.Order;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ivansoft.java.dapr.emarket.purchaseagent.models.ResponseOrder;
+import com.ivansoft.java.dapr.emarket.common.services.OrderStateService;
 import org.springframework.web.bind.annotation.*;
 import com.ivansoft.java.dapr.emarket.purchaseagent.models.Response;
 import com.ivansoft.java.dapr.emarket.purchaseagent.services.FulfillmentService;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.io.IOException;
 
@@ -13,13 +15,32 @@ import java.io.IOException;
 public class OrdersController {
     private static final Logger log = Logger.getLogger(OrdersController.class.getName());
 
-    @Autowired
-    private FulfillmentService fulfillmentService;
+    //@Autowired
+    private final FulfillmentService fulfillmentService;
+
+    private final OrderStateService orderStateService;
+
+    // inject dependencies by constructor is considered a good practice due the following reasons:
+    // 1. Immutable dependencies. The class is immutable, so it is thread-safe.
+    // 2. Compile-time safety. The class is guaranteed to be initialized with all its dependencies.
+    // 3. Testability. The class can be easily tested with mock dependencies.
+    public OrdersController(FulfillmentService fulfillmentService, OrderStateService orderStateService) {
+        this.fulfillmentService = fulfillmentService;
+        this.orderStateService = orderStateService;
+    }
 
     @PostMapping("/")
     public Response createOrder(@RequestBody Order order) throws IOException {
         log.info("Order received: " + order);
         fulfillmentService.publishOrder(order);
         return new Response("OK", "Order received");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseOrder getOrder(@PathVariable String id) throws Exception {
+        Optional<Order> order = orderStateService.getState(id);
+        return order.map(value ->
+                new ResponseOrder("ok", "retrieved data", value)).orElseGet(() ->
+                new ResponseOrder("error", "order not found", null));
     }
 }

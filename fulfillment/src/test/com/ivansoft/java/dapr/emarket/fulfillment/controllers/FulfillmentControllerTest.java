@@ -2,7 +2,7 @@ package com.ivansoft.java.dapr.emarket.fulfillment.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivansoft.java.dapr.emarket.common.Utils;
-import com.ivansoft.java.dapr.emarket.fulfillment.services.OrderStateService;
+import com.ivansoft.java.dapr.emarket.common.services.OrderStateService;
 import io.dapr.client.domain.CloudEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

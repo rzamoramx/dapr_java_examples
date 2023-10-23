@@ -51,6 +51,7 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
     public void onInvoke(CommonProtos.InvokeRequest request,
                          StreamObserver<CommonProtos.InvokeResponse> responseObserver) {
         StateRepository stateRepository = StateRepository.getInstance();
+        logger.info("request.getMethod(): " + request.getMethod());
         try {
             if ("SaveOrder".equals(request.getMethod())) {
                 logger.info("SaveOrder invoked");
@@ -90,8 +91,8 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
                 responseObserver.onNext(responseBuilder.build());
             }
 
-            if ("GetState".equals(request.getMethod())) {
-                logger.info("GetState invoked");
+            if ("GetOrder".equals(request.getMethod())) {
+                logger.info("GetOrder invoked");
                 // get data from the request
                 String data = request.getData().getValue().toStringUtf8();
                 String[] keyValuePair = data.split(":");
@@ -107,15 +108,17 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
                 CommonProtos.InvokeResponse.Builder responseBuilder = CommonProtos.InvokeResponse.newBuilder();
                 Response.Builder respBuilder = Response.newBuilder();
                 respBuilder.setStatus("OK");
-                Response response = respBuilder.build();
 
                 GetStateResponse.Builder getStateResponseBuilder = GetStateResponse.newBuilder();
                 if (result.isPresent()) {
                     getStateResponseBuilder.setValue(result.get());
                 } else {
                     logger.info("No state found for key: " + getStateRequest.getKey());
+                    respBuilder.setStatus("NOT_FOUND");
                     getStateResponseBuilder.setValue("");
                 }
+
+                Response response = respBuilder.build();
                 getStateResponseBuilder.setResponse(response);
                 GetStateResponse getStateResponse = getStateResponseBuilder.build();
 
