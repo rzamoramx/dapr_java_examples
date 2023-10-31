@@ -42,11 +42,12 @@ public class FulfillmentService {
 
         CloudEvent<String> cloudEvent = new CloudEvent<>();
         cloudEvent.setId(UUID.randomUUID().toString());
-        cloudEvent.setType("example");
+        cloudEvent.setType("com.ivansoft.java.dapr.emarket.orders.v1");
         cloudEvent.setSpecversion("1");
-        cloudEvent.setDatacontenttype("text/plain");
+        cloudEvent.setDatacontenttype("application/octet-stream"); // application/json, application/xml, plain/text
         // serialize order
         cloudEvent.setData(Utils.serializeOrder(order));
+        //cloudEvent.setBinaryData(Utils.serializeOrder(order));
 
         //Publishing messages
         client.publishEvent(

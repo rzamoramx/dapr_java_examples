@@ -8,6 +8,7 @@
         <groupId>com.ivansoft.java.dapr</groupId>
         <artifactId>emarket</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.ivansoft.java.dapr.emarket</groupId>
@@ -31,7 +32,7 @@
         <dependency>
             <groupId>com.ivansoft.java.dapr.emarket</groupId>
             <artifactId>common</artifactId>
-            <version>1.1.4-SNAPSHOT</version>
+            <version>1.1.8-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

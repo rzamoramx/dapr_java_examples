@@ -56,21 +56,14 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
             if ("SaveOrder".equals(request.getMethod())) {
                 logger.info("SaveOrder invoked");
                 // get data from the request
-                logger.info("request.getData().getValue(): " + request.getData().getValue().toStringUtf8());
+                SaveStateRequest saveStateRequest = SaveStateRequest.parseFrom(request.getData().getValue());
 
-                Order order = Utils.deserializeOrder(request.getData().getValue());
+                // Dapr surround messages by " when we are using grpc (invokeMethod) to call the service
+                Order order = Utils.deserializeOrder(saveStateRequest.getValue());
                 logger.info("ORDER: " + order);
-                String data = request.getData().getValue().toStringUtf8();
-                String[] keyValuePair = data.split(":");
-
-                // set key and value to a SaveStateRequest instance
-                SaveStateRequest saveStateRequest = SaveStateRequest.newBuilder()
-                        .setKey(keyValuePair[0])
-                        .setValue(keyValuePair[1])
-                        .build();
 
                 // save the state in the repository
-                stateRepository.storeState(saveStateRequest.getKey(), saveStateRequest.getValue());
+                stateRepository.storeState(order.getId(), saveStateRequest.getValue());
 
                 // prepare response
                 CommonProtos.InvokeResponse.Builder responseBuilder = CommonProtos.InvokeResponse.newBuilder();
@@ -94,15 +87,11 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
             if ("GetOrder".equals(request.getMethod())) {
                 logger.info("GetOrder invoked");
                 // get data from the request
-                String data = request.getData().getValue().toStringUtf8();
-                String[] keyValuePair = data.split(":");
-                // get key and create a GetStateRequest instance
-                GetStateRequest getStateRequest = GetStateRequest.newBuilder()
-                        .setKey(keyValuePair[0])
-                        .build();
+                GetStateRequest getStateRequest = GetStateRequest.parseFrom(request.getData().getValue());
 
                 // get the state from the repository
                 Optional<String> result = stateRepository.retrieveState(getStateRequest.getKey());
+                logger.info("result: " + result);
 
                 // prepare response
                 CommonProtos.InvokeResponse.Builder responseBuilder = CommonProtos.InvokeResponse.newBuilder();
@@ -128,9 +117,7 @@ public class GrpcService extends AppCallbackGrpc.AppCallbackImplBase {
                 responseBuilder.setData(Any.pack(getStateResponse));
                 responseObserver.onNext(responseBuilder.build());
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         } finally {
             responseObserver.onCompleted();

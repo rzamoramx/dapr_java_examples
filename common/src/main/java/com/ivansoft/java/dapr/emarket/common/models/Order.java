@@ -13,6 +13,10 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 123456789L;
 
     @NonNull
+    @JsonProperty("id")
+    String id;
+
+    @NonNull
     @JsonProperty("client")
     String client;
 

@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 import io.dapr.client.domain.CloudEvent;
 import com.ivansoft.java.dapr.emarket.common.models.Order;
 import com.ivansoft.java.dapr.emarket.common.Utils;
+
+import java.util.Arrays;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 
@@ -51,11 +54,13 @@ public class FulfillmentController {
     public Mono<Void> createOrderV2(@RequestBody(required = false) CloudEvent cloudEvent) {
         return Mono.fromRunnable(() -> {
             try {
-                logger.info("Subscriber got: " + cloudEvent.getData());
+                logger.info("Subscriber got (toString()): " + cloudEvent.getData().toString());
                 logger.info("Subscriber got: " + OBJECT_MAPPER.writeValueAsString(cloudEvent));
 
                 Order order = Utils.deserializeOrder(cloudEvent.getData().toString());
                 logger.info("Order received: " + order);
+
+                // other stuffs to do with the order
 
                 orderStateService.saveOrder(order);
             } catch (Exception e) {

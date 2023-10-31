@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.ivansoft.java.dapr.emarket</groupId>
             <artifactId>common</artifactId>
-            <version>1.1.4-SNAPSHOT</version>
+            <version>1.1.8-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

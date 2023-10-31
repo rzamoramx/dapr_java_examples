@@ -68,7 +68,7 @@ public class OrderStateService {
                     .build();
 
             // invoke save state method (grpc)
-            client.invokeMethod(ORDER_STATE_APP_ID, METHOD_SAVE, serializedOrder, HttpExtension.NONE).block();
+            client.invokeMethod(ORDER_STATE_APP_ID, METHOD_SAVE, saveStateRequest, HttpExtension.NONE).block();
             log.info("Order state saved successfully");
         }
     }
